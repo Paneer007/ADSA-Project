@@ -2,6 +2,7 @@
 #include <iostream>
 #include <string.h>
 #include "../utils/utils.hpp"
+
 using namespace std;
 
 struct Edge
@@ -9,6 +10,11 @@ struct Edge
     int src;
     int dest;
     int weight;
+
+    bool operator<(const Edge &rhs) const
+    {
+        return weight < rhs.weight;
+    }
 };
 
 struct Traits
@@ -53,8 +59,8 @@ private:
                 while (getline(str, word, ','))
                     elems.push_back(word);
                 int scoreRel = score();
-                Edge relationEdge = {stoi(elems[1]), stoi(elems[2]), scoreRel};
-                Edge relationEdgeTwo = {stoi(elems[2]), stoi(elems[1]), scoreRel};
+                Edge relationEdge = {stoi(elems[2]), stoi(elems[1]), scoreRel};
+                Edge relationEdgeTwo = {stoi(elems[1]), stoi(elems[2]), scoreRel};
                 adjList[stoi(elems[2])].push_back(relationEdge);
                 adjList[stoi(elems[1])].push_back(relationEdgeTwo);
             }
@@ -84,19 +90,6 @@ private:
         }
     }
 
-public:
-    Graph()
-    {
-    }
-
-    void GenerateGraphFromCSV()
-    {
-        GenerateVerticesFromCSV();
-        GenerateEdgesFromCSV();
-        PrintVertices();
-        PrintEdges();
-    }
-
     void PrintVertices()
     {
         cout << "\n user traits \n";
@@ -109,16 +102,31 @@ public:
     void PrintEdges()
     {
         cout << "\n user relation \n";
-        for (auto user : adjList)
+        auto user = adjList[1];
+        for (auto x : user)
         {
-            cout << user.first << endl;
-            for (auto x : user.second)
-            {
-                cout << "dest : " << x.dest;
-                cout << "src : " << x.src;
-                cout << "score : " << x.weight;
-                cout << endl;
-            }
+            cout << "dest : " << x.dest;
+            cout << "src : " << x.src;
+            cout << "score : " << x.weight;
+            cout << endl;
         }
+    }
+
+public:
+    Graph()
+    {
+    }
+
+    void Dijkstra(int);
+
+    void GenerateGraphFromCSV()
+    {
+        GenerateVerticesFromCSV();
+        GenerateEdgesFromCSV();
+    }
+
+    void PrintVerticesAndEdges(){
+        PrintEdges();
+        PrintVertices();
     }
 };
