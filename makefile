@@ -8,3 +8,5 @@ dev:
 	g++ main.cpp -o dev
 	./dev
 	rm ./dev
+make_seeds:
+	python3 ./data/generateSeed.py
