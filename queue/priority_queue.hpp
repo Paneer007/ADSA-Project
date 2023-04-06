@@ -1,219 +1,231 @@
-#include<bits/stdc++.h>
+#include <bits/stdc++.h>
 using namespace std;
 
-int total=0;
 struct node
 {
-    int n;
+    Edge edge;
     int degree;
-    node* parent;
+    node *parent;
     node *child;
     node *left;
     node *right;
     char mark;
     char c;
 };
-node* initialiseHeap()
-{
-    node *fh=NULL;
-    return fh;
-}
-node * createNode(int val)
-{
-    node *x=new node;
-    x->n=val;
-    return x;
-}
 
-void display(node *h)
+class Fibonacci_Heap
 {
-    node *temp=h;
-    if (temp==NULL)
+    node *fh;
+    int total = 0;
+
+private:
+    node *insert(node *h, node *x)
     {
-        cout<<"empty"<<endl;
-        return;
-    }
-    do
-    {
-        cout<<temp->n;
-        temp=temp->right;
-        if (temp!=h) cout<<"-->";
-    } while (temp!=h && temp->right!=NULL);
-    
-}
-node* insert(node *h,node *x)
-{
-    x->degree=0;
-    x->parent=NULL;
-    x->child=NULL;
-    x->left=x;
-    x->right=x;
-    x->mark='F';
-    x->c='N';
-    if (h!=NULL)
-    {
-        if (h->left==NULL)
+        x->degree = 0;
+        x->parent = NULL;
+        x->child = NULL;
+        x->left = x;
+        x->right = x;
+        x->mark = 'F';
+        x->c = 'N';
+        if (h != NULL)
         {
-            x->right=NULL;
-            h->left=x;
+            if (h->left == NULL)
+            {
+                x->right = NULL;
+                h->left = x;
+            }
+            else
+            {
+                (h->left)->right = x;
+                x->right = h;
+                x->left = h->left;
+                h->left = x;
+            }
+            if (x->edge.weight < h->edge.weight)
+                h = x;
         }
         else
-        {
-        (h->left)->right=x;
-        x->right=h;
-        x->left=h->left;
-        h->left=x;
-        }
-        if (x->n<h->n) h=x;
+            h = x;
+        total = total + 1;
+        return h;
     }
-    else h=x;
-    total=total+1;
-    return h;
-}
 
-void link(node *h,node *y,node *z)
-{
-    y->left->right=y->right;
-    y->right->left=y->left;
-    if (z->right==z) h=z;
-    y->left=y;
-    y->right=y;
-    y->parent=z;
-    if (z->child==NULL) z->child=y;
-    y->right=z->child;
-    y->left=(z->child)->left;
-    ((z->child)->left)->right=y;
-    (z->child)->left=y;
-    if (y->n<(z->child)->n)
-    z->child=y;
-    z->degree++;
-}
-
-void consolidate(node *h)
-{
-    float size=(log(total)/log(2));
-    int siz=size;
-    int d;
-    node *arr[siz+1];
-    node *temp;
-    for (int i=0;i<=siz;i++)
-        arr[i]=NULL;
-    node *x=h;
-    node *ptr=x;
-    do
+    node *createNode(Edge Child)
     {
-        ptr=ptr->right;
-        d=x->degree;
-        while (arr[d]!=NULL)
-        {
-            temp=arr[d];
-            if (x->n>temp->n)
-            {
-                node *t=x;
-                x=temp;
-                temp=t;
-            }
-            if (temp==h) h=x;
-            link(h,temp,x);
-            if (x->right==x) h=x;
-            arr[d]=NULL;
-            d++;
-        }
-        arr[d]=x;
-        x=x->right;
-
-    } while (x!=h);
-    h=NULL;
-    for (int j=0;j<=siz;j++)
-    {
-        if (arr[j]!=NULL)
-        {
-            arr[j]->left=arr[j];
-            arr[j]->right=arr[j];
-            if (h!=NULL)
-            {
-                (h->left)->right=arr[j];
-                arr[j]->right=h;
-                arr[j]->left=h->left;
-                h->left=arr[j];
-                if (arr[j]->n<h->n) h=arr[j];
-            }
-            else h=arr[j];
-        
-        if (h==NULL) h=arr[j];
-        else if (arr[j]->n<h->n) h=arr[j];
-        }
+        node *x = new node;
+        x->edge = Child;
+        return x;
     }
-    
-}
 
-node* extractMin(node*h)
-{
-    node *temp=h;
-    node *ptr=temp;
-    node *x=NULL;
-    node *llptr;
-    if (temp==NULL) return temp;
-    if (temp->child!=NULL) {
-        x=temp->child;
+    void link(node *h, node *y, node *z)
+    {
+        y->left->right = y->right;
+        y->right->left = y->left;
+        if (z->right == z)
+            h = z;
+        y->left = y;
+        y->right = y;
+        y->parent = z;
+        if (z->child == NULL)
+            z->child = y;
+        y->right = z->child;
+        y->left = (z->child)->left;
+        ((z->child)->left)->right = y;
+        (z->child)->left = y;
+        if (y->edge.weight < (z->child)->edge.weight)
+            z->child = y;
+        z->degree++;
+    }
+
+    void consolidate(node *h)
+    {
+        float size = (log(total) / log(2));
+        int siz = size;
+        int d;
+        node *arr[siz + 1];
+        node *temp;
+        for (int i = 0; i <= siz; i++)
+            arr[i] = NULL;
+        node *x = h;
+        node *ptr = x;
         do
         {
-            ptr=x->right;
-            h->left->right=x;
-            x->right=h;
-            x->left=h->left;
-            h->left=x;
-            if (x->n<h->n) h=x;
-            x->parent=NULL;
-            x=ptr;
+            ptr = ptr->right;
+            d = x->degree;
+            while (arr[d] != NULL)
+            {
+                temp = arr[d];
+                if (x->edge.weight > temp->edge.weight)
+                {
+                    node *t = x;
+                    x = temp;
+                    temp = t;
+                }
+                if (temp == h)
+                    h = x;
+                link(h, temp, x);
+                if (x->right == x)
+                    h = x;
+                arr[d] = NULL;
+                d++;
+            }
+            arr[d] = x;
+            x = x->right;
 
-        } while (ptr!=temp->child);
-        
-    }
-    (temp->left)->right=temp->right;
-    (temp->right)->left=temp->left;
-    h=temp->right;
-    if (temp==temp->right && temp->child==NULL)
-    h=NULL;
-    else{
-        h=temp->right;
-        consolidate(h);
-    }
-    total--;
-    return h;
-}
-int main()
-{
-    node *h=initialiseHeap();
-    int choice;
-    int val;
-    while (1)
-    {
-    cout<<"1.Insert\t2.Extract min\t3.Display\t4.Exit\nChoose  ";
-    cin>>choice;
-    if (choice==1)
-    {
-        cin>>val;
-        node *newnode=createNode(val);
-        h=insert(h,newnode);
-    }
-    else if (choice==2)
-    {
-       
-        h=extractMin(h);
-    }
-    else if (choice==3)
-        {display(h);
-        cout<<endl;
+        } while (x != h);
+        h = NULL;
+        for (int j = 0; j <= siz; j++)
+        {
+            if (arr[j] != NULL)
+            {
+                arr[j]->left = arr[j];
+                arr[j]->right = arr[j];
+                if (h != NULL)
+                {
+                    (h->left)->right = arr[j];
+                    arr[j]->right = h;
+                    arr[j]->left = h->left;
+                    h->left = arr[j];
+                    if (arr[j]->edge.weight < h->edge.weight)
+                        h = arr[j];
+                }
+                else
+                    h = arr[j];
+
+                if (h == NULL)
+                    h = arr[j];
+                else if (arr[j]->edge.weight < h->edge.weight)
+                    h = arr[j];
+            }
         }
-        
-    else if (choice==4) break;
-    
     }
-    return 0;
-}
-int custom_pq()
-{
-    cout << "WIP: implement Dijkstra algorithm" << endl;
-    return 0;
-}
+
+public:
+    Fibonacci_Heap()
+    {
+        fh = NULL;
+    }
+
+    int display()
+    {
+        node *temp = fh;
+        if (temp == NULL)
+        {
+            throw 505;
+        }
+        do
+        {
+            cout << temp->edge.weight;
+            temp = temp->right;
+            if (temp != fh)
+                cout << "-->";
+        } while (temp != fh && temp->right != NULL);
+        cout << endl;
+    }
+
+    void push(Edge val)
+    {
+        node *newnode = createNode(val);
+        fh = insert(fh, newnode);
+    }
+
+    Edge top(){
+        node *temp = fh;
+        Edge tempEdge;
+        tempEdge.weight=INT_MAX;
+        if (temp == NULL)
+        {
+            throw 505;
+        }
+        do
+        {
+            if(temp->edge.weight<tempEdge.weight){
+                tempEdge=temp->edge;
+            }
+            temp = temp->right;
+        } while (temp != fh && temp->right != NULL);
+        return tempEdge;
+    }
+
+    void pop()
+    {
+        node *temp = fh;
+        node *ptr = temp;
+        node *x = NULL;
+        node *llptr;
+        if (temp == NULL)
+            return;
+        if (temp->child != NULL)
+        {
+            x = temp->child;
+            do
+            {
+                ptr = x->right;
+                fh->left->right = x;
+                x->right = fh;
+                x->left = fh->left;
+                fh->left = x;
+                if (x->edge.weight < fh->edge.weight)
+                    fh = x;
+                x->parent = NULL;
+                x = ptr;
+
+            } while (ptr != temp->child);
+        }
+        (temp->left)->right = temp->right;
+        (temp->right)->left = temp->left;
+        fh = temp->right;
+        if (temp == temp->right && temp->child == NULL)
+            fh = NULL;
+        else
+        {
+            fh = temp->right;
+            consolidate(fh);
+        }
+        total--;
+    }
+    bool empty(){
+        return fh==NULL;
+    }
+};

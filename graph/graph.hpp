@@ -1,28 +1,8 @@
 #include <bits/stdc++.h>
 #include <iostream>
 #include <string.h>
-#include "../utils/utils.hpp"
 
 using namespace std;
-
-struct Edge
-{
-    int src;
-    int dest;
-    int weight;
-
-    bool operator<(const Edge &rhs) const
-    {
-        return weight < rhs.weight;
-    }
-};
-
-struct Traits
-{
-    int age;
-    string region;
-    string name;
-};
 
 class Graph
 {
@@ -117,16 +97,54 @@ public:
     {
     }
 
-    void Dijkstra(int);
-
     void GenerateGraphFromCSV()
     {
         GenerateVerticesFromCSV();
         GenerateEdgesFromCSV();
     }
 
-    void PrintVerticesAndEdges(){
+    void PrintVerticesAndEdges()
+    {
         PrintEdges();
         PrintVertices();
+    }
+
+    void Dijkstra(int source)
+    {
+        unordered_map<int, int> costToReach;
+        unordered_set<int> verticesSet;
+        Fibonacci_Heap pq;
+        pq.push({source, source, 0});
+        costToReach[source] = 0;
+        while (!pq.empty())
+        {
+            auto currVertex = pq.top();
+            pq.pop();
+            verticesSet.insert(currVertex.src);
+            auto edges = adjList[currVertex.dest];
+            for (auto edge : edges)
+            {
+                if (costToReach.find(edge.dest) == costToReach.end())
+                {
+                    costToReach[edge.dest] = costToReach[currVertex.src] + edge.weight;
+                }
+                else
+                {
+                    costToReach[edge.dest] = min(costToReach[currVertex.src] + edge.weight, costToReach[edge.dest]);
+                }
+                if (verticesSet.find(edge.dest) == verticesSet.end())
+                {
+                    pq.push(edge);
+                }
+            }
+        }
+
+        cout << "cost" << endl;
+
+        for (auto x : costToReach)
+        {
+            cout << x.first << " : " << x.second << endl;
+        }
+        return;
     }
 };
