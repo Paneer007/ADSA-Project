@@ -18,4 +18,7 @@ struct Traits
     int age;
     string region;
     string name;
+    string institution;
+    vector<int> following;
+    vector<string> interests;
 };

@@ -1,31 +1,101 @@
-id,name,region,age
-1,Ann,34,Kerala
-2,Donald,57,Arunachal Pradesh
-3,Timothy,20,Chhattisgarh
-4,Earl,32,Gujarat
-5,Ruth,48,Chhattisgarh
-6,Curtis,31,Himachal Pradesh
-7,Robert,47,Delhi
-8,Melody,44,Punjab
-9,Mitchell,50,Chandigarh
-10,Joan,24,Odisha
-11,Charlie,22,Telangana
-12,Lisa,26,Kerala
-13,Patricia,61,Madhya Pradesh
-14,Alexander,51,Andaman and Nicobar Islands
-15,Bradley,56,Chhattisgarh
-16,Ethel,62,Kerala
-17,Mary,32,West Bengal
-18,Carlotta,30,Himachal Pradesh
-19,Curtis,45,Dadra and Nagar Haveli
-20,Joshua,48,Manipur
-21,Jennie,37,Telangana
-22,James,49,Tripura
-23,Randy,62,West Bengal
-24,Kathy,38,Daman and Diu
-25,John,25,Chhattisgarh
-26,Matthew,61,Mizoram
-27,Jill,42,Himachal Pradesh
-28,Brenda,44,Andhra Pradesh
-29,Katherine,30,Gujarat
-30,Harold,24,Odisha
+id,name,region,age,institution
+1,Ralph,23,Kerala,Oracle
+2,Frederick,50,Karnataka,Princeton University
+3,Jonathon,57,Andaman and Nicobar Islands,Fortinet
+4,Linda,23,Telangana,Zillow Group
+5,Thomas,22,Arunachal Pradesh,Datadog
+6,Mark,40,Nagaland,Zillow Group
+7,Kelly,36,Tamil Nadu,Zillow Group
+8,Flora,43,Daman and Diu,AppDynamics
+9,Lynne,61,Daman and Diu,Synopsys
+10,Brenda,26,Jharkhand,AMD
+11,Kristina,50,Maharashtra,Zillow Group
+12,Shelly,50,Madhya Pradesh,Applied Materials
+13,Valerie,21,Karnataka,Synopsys
+14,Timothy,50,Goa,Akamai Technologies
+15,Helen,52,Delhi,University of Cambridge
+16,Erin,58,Andhra Pradesh,Dell Technologies
+17,Kent,42,Delhi,Oracle
+18,Bridgett,49,Odisha,Analog Devices
+19,Willard,63,Maharashtra,Snap
+20,Teresa,34,Manipur,Okta
+21,Scott,57,Haryana,NXP Semiconductors
+22,Nicole,57,Nagaland,Harvard University
+23,Cindy,53,Tamil Nadu,PagerDuty
+24,Bertha,34,Andhra Pradesh,Skyworks Solutions
+25,Lucille,39,Andaman and Nicobar Islands,Lyft
+26,Winford,20,Jharkhand,Zillow Group
+27,Irma,51,Delhi,Apple
+28,Carmen,18,Haryana,University of Oxford
+29,Charles,33,Arunachal Pradesh,UiPath
+30,Kimberley,34,Maharashtra,Netflix
+31,Peter,64,Andaman and Nicobar Islands,ASML
+32,Shirley,44,Delhi,Keysight Technologies
+33,Carroll,53,Maharashtra,Lyft
+34,Julie,20,Goa,Skyworks Solutions
+35,Octavia,38,Tripura,Teradyne
+36,Michael,21,Uttarakhand,Qualtrics
+37,Maria,35,Chandigarh,UiPath
+38,William,62,Puducherry,Harvard University
+39,Craig,20,Jharkhand,Facebook
+40,Armida,31,Dadra and Nagar Haveli,Microsoft
+41,Lucretia,53,West Bengal,Analog Devices
+42,Joanna,50,Maharashtra,JFrog
+43,Frank,24,Puducherry,Micron Technology
+44,Latisha,48,Delhi,Atlassian
+45,Mike,46,Sikkim,Qualcomm
+46,Suzanne,62,Uttar Pradesh,Twilio
+47,Carolyn,25,Tamil Nadu,New Relic
+48,Charles,29,Haryana,PagerDuty
+49,Richard,29,Chandigarh,Cisco Systems
+50,James,52,Andhra Pradesh,Broadcom
+51,George,58,Chhattisgarh,Hewlett Packard Enterprise
+52,Judy,29,Jharkhand,Unity Technologies
+53,Brenda,46,Jharkhand,SquareSpace
+54,Donald,55,Chandigarh,Adobe
+55,Robin,23,Andhra Pradesh,Micron Technology
+56,Mark,33,Nagaland,NVIDIA
+57,Shirley,41,Haryana,Box
+58,Gerry,25,West Bengal,Adobe
+59,Zachariah,24,Delhi,Zillow Group
+60,Brenda,36,Daman and Diu,UiPath
+61,Benjamin,64,Odisha,Dropbox
+62,Emily,19,Odisha,Snap
+63,Claudia,49,Mizoram,Lyft
+64,William,32,Bihar,Square
+65,Robert,50,Gujarat,Qorvo
+66,Justin,32,Manipur,NVIDIA
+67,Thomas,50,Arunachal Pradesh,Hewlett Packard Enterprise
+68,Wilfred,57,Uttar Pradesh,Palantir Technologies
+69,Constance,58,Delhi,Qualtrics
+70,Nancy,45,Arunachal Pradesh,Workday
+71,Clarence,40,Puducherry,Amazon
+72,Ruth,33,Karnataka,Darktrace
+73,Kim,37,Haryana,MongoDB
+74,Ashely,21,Gujarat,Atlassian
+75,Francesca,19,Andaman and Nicobar Islands,SquareSpace
+76,Marilyn,55,Karnataka,MongoDB
+77,Leon,50,Arunachal Pradesh,Xilinx
+78,Charles,64,Uttar Pradesh,Snowflake
+79,Gerald,28,West Bengal,Snowflake
+80,Christina,18,Goa,Snowflake
+81,Michael,53,Daman and Diu,PagerDuty
+82,Kenneth,58,Meghalaya,MongoDB
+83,Gwendolyn,44,Maharashtra,ON Semiconductor
+84,Greg,36,Andhra Pradesh,Netflix
+85,Kathryn,51,Telangana,Square
+86,Stanley,42,Dadra and Nagar Haveli,ServiceNow
+87,Ronald,46,Nagaland,Silicon Laboratories
+88,Glenn,20,Goa,Lenovo
+89,Deborah,41,Meghalaya,Darktrace
+90,Martha,52,Sikkim,Dell Technologies
+91,John,45,Jharkhand,Cadence Design Systems
+92,David,43,Delhi,CrowdStrike
+93,Edward,30,Jammu and Kashmir,Datadog
+94,Charles,50,Tamil Nadu,Twilio
+95,Twana,26,Chandigarh,PagerDuty
+96,Katie,53,Kerala,Fastly
+97,Eric,24,Andaman and Nicobar Islands,Snap
+98,Laura,36,West Bengal,Princeton University
+99,Frank,61,Goa,Palantir Technologies
+100,Moises,38,Karnataka,Salesforce

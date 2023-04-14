@@ -43,6 +43,8 @@ private:
                 Edge relationEdgeTwo = {stoi(elems[1]), stoi(elems[2]), scoreRel};
                 adjList[stoi(elems[2])].push_back(relationEdge);
                 adjList[stoi(elems[1])].push_back(relationEdgeTwo);
+                userTraits[stoi(elems[1])].following.push_back(stoi(elems[2]));
+                userTraits[stoi(elems[2])].following.push_back(stoi(elems[1]));
             }
         }
     }
@@ -64,7 +66,7 @@ private:
                 while (getline(str, word, ','))
                     elems.push_back(word);
                 int index = stoi(elems[0]);
-                Traits traits = {stoi(elems[2]), elems[3], elems[1]};
+                Traits traits = {stoi(elems[2]), elems[3], elems[1], elems[4]};
                 userTraits[index] = traits;
             }
         }
@@ -75,7 +77,7 @@ private:
         cout << "\n user traits \n";
         for (auto user : userTraits)
         {
-            cout << user.first << " " << user.second.age << " " << user.second.name << " " << user.second.region << endl;
+            cout << user.first << " " << user.second.age << " " << user.second.name << " " << user.second.region << user.second.institution << endl;
         }
     }
 
@@ -92,6 +94,41 @@ private:
         }
     }
 
+    void PrintHashtags()
+    {
+        cout << "\n user hash tags \n";
+        for (auto user : userTraits)
+        {
+            for (auto tags : user.second.interests)
+            {
+                cout << tags << " ";
+            }
+            cout << endl;
+        }
+    }
+
+    void GenerateHashtagsFromCSV()
+    {
+        fstream fin;
+        fin.open("./data/seeds/hashtags.csv", ios::in);
+        string line;
+        vector<string> elems;
+        string word;
+        if (fin.is_open())
+        {
+            getline(fin, line);
+            while (getline(fin, line))
+            {
+                elems.clear();
+                stringstream str(line);
+                while (getline(str, word, ','))
+                    elems.push_back(word);
+                int index = stoi(elems[2]);
+                userTraits[index].interests.push_back(elems[1]);
+            }
+        }
+    }
+
 public:
     Graph()
     {
@@ -101,12 +138,14 @@ public:
     {
         GenerateVerticesFromCSV();
         GenerateEdgesFromCSV();
+        GenerateHashtagsFromCSV();
     }
 
     void PrintVerticesAndEdges()
     {
         PrintEdges();
         PrintVertices();
+        PrintHashtags();
     }
 
     void Dijkstra(int source)
@@ -114,6 +153,7 @@ public:
         unordered_map<int, int> costToReach;
         unordered_set<int> verticesSet;
         Fibonacci_Heap pq;
+        // priority_queue<Edge>pq;
         pq.push({source, source, 0});
         costToReach[source] = 0;
         while (!pq.empty())
