@@ -52,7 +52,7 @@ void homepage(string user)
         case 3:
         {
             int count = SearchForRecommendationPage();
-            ReturnRecommendations();
+            ReturnRecommendations(count,currentUser);
             BlockIO("Recommended");
             continue;
         }

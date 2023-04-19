@@ -1,10 +1,16 @@
 #include <bits/stdc++.h>
 #include <iostream>
 #include <string.h>
+#include "../queue/priority_queue.hpp"
+
 
 using namespace std;
 
-
+struct DijkstraReturn
+{
+    unordered_map<int,int>userVisit;
+    unordered_map<int, int> costToReach;
+};
 
 class Graph
 {
@@ -40,7 +46,7 @@ private:
                 stringstream str(line);
                 while (getline(str, word, ','))
                     elems.push_back(word);
-                int scoreRel = score();
+                int scoreRel = score(elems,userTraits);
                 Edge relationEdge = {stoi(elems[2]), stoi(elems[1]), scoreRel};
                 Edge relationEdgeTwo = {stoi(elems[1]), stoi(elems[2]), scoreRel};
                 adjList[stoi(elems[2])].push_back(relationEdge);
@@ -72,7 +78,10 @@ private:
                 userTraits[index] = traits;
             }
         }
+
+        cout<<"im done"<<endl;
     }
+
 
     void PrintVertices()
     {
@@ -150,7 +159,7 @@ public:
         PrintHashtags();
     }
 
-    void Dijkstra(int source)
+    struct DijkstraReturn Dijkstra(int source)
     {
         unordered_map<int,int>userVisit;
         unordered_map<int, int> costToReach;
@@ -186,13 +195,14 @@ public:
                 }
             }
         }
+        return{userVisit,costToReach};
+        
 
-        cout << "cost" << endl;
+        // cout << "cost" << endl;
 
-        for (auto x : costToReach)
-        {
-            cout << x.first << " : " << x.second << endl;
-        }
-        return;
+        // for (auto x : costToReach)
+        // {
+        //     cout << x.first << " : " << x.second << endl;
+        // }
     }
 };

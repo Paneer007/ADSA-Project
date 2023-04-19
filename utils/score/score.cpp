@@ -1,7 +1,7 @@
 #include<bits/stdc++.h>
 using namespace std;
 
-int cardinalityOfIntersection(vector<int>Set1,vector<int>Set2){
+int cardinalityOfIntersectionMutuals(vector<int>Set1,vector<int>Set2){
     sort(Set1.begin(),Set1.end());
     sort(Set2.begin(),Set2.end());
     vector<int> v(Set1.size() + Set2.size());
@@ -14,8 +14,31 @@ int cardinalityOfIntersection(vector<int>Set1,vector<int>Set2){
                           v.begin());
     return v.size();
 }
-
-int score()
+int cardinalityOfIntersectionHashtags(vector<string>Set1,vector<string>Set2){
+    sort(Set1.begin(),Set1.end());
+    sort(Set2.begin(),Set2.end());
+    vector<string> v(Set1.size() + Set2.size());
+    vector<string>::iterator it;
+  
+    it = set_intersection(Set1.begin(),
+                          Set1.end(),
+                          Set2.begin(),
+                          Set2.end(),
+                          v.begin());
+    return v.size();
+}
+int score(vector<string>elems,unordered_map<int,Traits>userTraits)
 {
-    return rand() % 10000;
+    int scoreValue=0;
+    int src=stoi(elems[1]);
+    int dest=stoi(elems[2]);
+    string srcPlace=userTraits[src].region;
+    string destPlace=userTraits[dest].region;
+    int commonHashtags=cardinalityOfIntersectionHashtags(userTraits[src].interests,userTraits[dest].interests);
+    int commonFriends=cardinalityOfIntersectionMutuals(userTraits[src].following,userTraits[dest].following);
+    scoreValue+=(1000/commonHashtags);
+    scoreValue+=(1000/commonFriends);
+    if (srcPlace.compare(destPlace)==0) 
+        scoreValue-=(0.1*scoreValue);
+    return scoreValue;
 }
