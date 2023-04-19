@@ -4,21 +4,22 @@ using namespace std;
 int landingpage()
 {
     int x;
-    while (true)
+    bool flag = true;
+    while (flag)
     {
         system("clear");
         int choice = LandingPage();
-        pair<string, string> creds;
         int authStatus;
         switch (choice)
         {
         case 1:
-            creds = LoginPage();
+        {
+            auto creds = LoginPage();
             authStatus = loginUser(creds.first, creds.second);
             switch (authStatus)
             {
             case 0:
-                cout<<"logged in"<<endl;
+                cout << "logged in" << endl;
                 homepage(creds.first);
                 continue;
             case 1:
@@ -31,9 +32,12 @@ int landingpage()
                 continue;
             }
             continue;
+        }
+
         case 2:
-            creds = SignupPage();
-            authStatus = signupUser(creds.first, creds.second);
+        {
+            auto creds = SignupPage();
+            authStatus = signupUser(creds);
             switch (authStatus)
             {
             case 0:
@@ -44,12 +48,20 @@ int landingpage()
                 continue;
             }
             continue;
+        }
+
         case 3:
-            exit(0);
-            continue;
+        {
+            flag = false;
+            break;
+        }
+
         default:
+        {
             exit(1);
-            continue;
+            break;
+        }
         }
     }
+    return 0;
 }

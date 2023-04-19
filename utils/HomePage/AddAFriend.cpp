@@ -55,7 +55,7 @@ int createRelation(int user_id, int friend_id)
     string word;
     if (fin.is_open())
     {
-        int lineNum = file_line_count("./data/seeds/user.csv");
+        int lineNum = file_line_count("./data/seeds/relation.csv");
         fin << lineNum<<","<<user_id<<","<<friend_id<<"\n";
         fin.close();
     }

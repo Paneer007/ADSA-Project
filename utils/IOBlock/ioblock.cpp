@@ -31,5 +31,11 @@ void BlockIO(string inputType)
     else if(inputType == "friendDoesNotExist"){
         cout<< "The given user doesn't exists. Press a key to return ";
         cin >> x;   
+    }else if(inputType == "AlreadyFriends"){
+        cout<< "You are already friends with given user. Press a key to return ";
+        cin >> x;    
+    }else if(inputType == "hashExists"){
+        cout<< "HashTag already exists. Press a key to return ";
+        cin>>x;
     }
 }

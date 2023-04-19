@@ -8,7 +8,7 @@ int file_line_count(string file_name){
         ++lines_count;
     return lines_count;
 }
-int createUsers(string username, string password)
+int createUsers(vector<string>creds)
 {
     fstream fin;
     fin.open("./data/seeds/user.csv", ios::app);
@@ -18,13 +18,15 @@ int createUsers(string username, string password)
     if (fin.is_open())
     {
         int lineNum = file_line_count("./data/seeds/user.csv");
-        fin << lineNum << "," << username << ",,,," << password<<"\n";
+        fin << lineNum << "," << creds[0] << ","<<creds[2]<<","<<creds[3]<<","<<creds[4]<<"," << creds[1]<<"\n";
         fin.close();
     }
     return 0;
 }
-int signupUser(string username, string password)
+int signupUser(vector<string>credentials)
 {
+    string username = credentials[0];
+    string password = credentials[1];
     makeUserVerificationMap();
     if (userVerification.find(username) != userVerification.end())
     {
@@ -32,7 +34,7 @@ int signupUser(string username, string password)
     }
     else
     {
-        int resp = createUsers(username, password);
+        int resp = createUsers(credentials);
         return resp;
     }
 }

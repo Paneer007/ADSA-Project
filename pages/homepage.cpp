@@ -4,7 +4,8 @@ string currentUser;
 void homepage(string user)
 {
     currentUser = user;
-    while (true)
+    bool flag=true;
+    while (flag)
     {
         system("clear");
         int choice = HomePage();
@@ -32,31 +33,26 @@ void homepage(string user)
                 continue;
             }
             }
-            BlockIO("addedFriend");
             continue;
         }
 
         case 2:
         {
-            int choice = UpdateProfilePage();
-            switch(choice){
-                case 1:
-                    {
-                        continue;
-                    }
-                case 2:
-                case 3:
-                case 4:
-                    cout<<"WIP"<<endl;
+            auto choice = AddHashTagsToProfile();
+            auto res = UpdateHashtag(currentUser, choice.second);
+            switch (res)
+            {
+            case 1:
+                BlockIO("hashExists");
             }
-            BlockIO("updatedProfile");
+            continue;
             continue;
         }
 
         case 3:
         {
             int count = SearchForRecommendationPage();
-            // ReturnRecommendations();
+            ReturnRecommendations();
             BlockIO("Recommended");
             continue;
         }
@@ -65,6 +61,7 @@ void homepage(string user)
         {
             currentUser = "";
             BlockIO("LoggedOut");
+            flag = false;
             continue;
         }
 

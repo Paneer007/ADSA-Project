@@ -19,7 +19,7 @@ void makeUserVerificationMap()
             stringstream str(line);
             while (getline(str, word, ','))
                 elems.push_back(word);
-            userVerification[elems[1]]=elems[4];
+            userVerification[elems[1]]=elems[5];
         }
     }
 }
@@ -30,6 +30,7 @@ int loginUser(string username, string password)
         return 2;
     }else{
         auto actualPassword = userVerification[username];
+        cout<<actualPassword<<endl;
         if(actualPassword== password){
             return 0;
         }else{

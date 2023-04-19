@@ -9,4 +9,6 @@
 #include "./HomePage/LogOut.cpp"
 #include "./HomePage/UpdateProfile.cpp"
 #include "./HomePage/SearchForRecommendations.cpp"
+#include "./UpdateProfile/AddHashTags.cpp"
+#include "./Recommendation/ReturnRecommendations.cpp"
 using namespace std;
