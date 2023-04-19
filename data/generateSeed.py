@@ -1,6 +1,7 @@
 import csv
 import names
 import random
+import string
 
 NumberOfUsers = 100
 NumberOfRelations = 2500
@@ -10,7 +11,7 @@ noOfUserList = list(range(1, NumberOfUsers+1))
 
 
 # csv fields
-userFields = ['id', 'name', 'region', 'age', 'institution']
+userFields = ['id', 'name', 'region', 'age', 'institution', 'password']
 relationFields = ['id', 'person1', 'person2']
 hashtagsFields = ['id', 'value', 'userid']
 
@@ -289,13 +290,16 @@ hashtags = []
 '''
 
 
+
+
 def GenerateUsers():
     for i in range(NumberOfUsers):
         name = names.get_first_name()
         age = random.choice(ageList)
         region = random.choice(regionList)
         institute = random.choice(institutionsList)
-        users.append([i+1, name, age, region, institute])
+        password = "password"
+        users.append([i+1, name, age, region, institute, password])
     return
 
 
@@ -320,7 +324,7 @@ def GenerateInterest():
         for x in range(number_of_interest):
             HashTag = random.choice(hashtagsList)
             hashtags.append([count, HashTag, i[0]])
-            count+=1
+            count += 1
 
 
 def GenerateUserCSV():

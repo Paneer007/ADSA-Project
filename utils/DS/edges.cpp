@@ -11,6 +11,15 @@ struct Edge
     {
         return weight < rhs.weight;
     }
+
+    Edge(){
+        weight=0;
+    }
+    Edge (int s , int d, int w){
+        src= s;
+        dest = d;
+        weight= w;
+    }
 };
 
 struct Traits
@@ -22,3 +31,5 @@ struct Traits
     vector<int> following;
     vector<string> interests;
 };
+
+

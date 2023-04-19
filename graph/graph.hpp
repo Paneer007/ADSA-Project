@@ -4,6 +4,8 @@
 
 using namespace std;
 
+
+
 class Graph
 {
     unordered_map<int, vector<Edge>> adjList;
@@ -150,13 +152,13 @@ public:
 
     void Dijkstra(int source)
     {
+        unordered_map<int,int>userVisit;
         unordered_map<int, int> costToReach;
         unordered_set<int> verticesSet;
-        Fibonacci_Heap pq;
-        // priority_queue<Edge>pq;
-        pq.push({source, source, 0});
+        FibonacciHeap pq;
+        pq.push(source, source, 0);
         costToReach[source] = 0;
-        while (!pq.empty())
+        while (!pq.isEmpty())
         {
             auto currVertex = pq.top();
             pq.pop();
@@ -164,6 +166,11 @@ public:
             auto edges = adjList[currVertex.dest];
             for (auto edge : edges)
             {
+                if(userVisit.find(edge.dest)== userVisit.end()){
+                    userVisit[edge.dest]=0;
+                }else{
+                    userVisit[edge.dest]=userVisit[edge.dest]+1;
+                }
                 if (costToReach.find(edge.dest) == costToReach.end())
                 {
                     costToReach[edge.dest] = costToReach[currVertex.src] + edge.weight;
@@ -174,7 +181,8 @@ public:
                 }
                 if (verticesSet.find(edge.dest) == verticesSet.end())
                 {
-                    pq.push(edge);
+                    cout<<edge.src<<" "<<edge.dest<<" "<<edge.weight<<endl;
+                    pq.push(edge.src,edge.dest,edge.weight);
                 }
             }
         }

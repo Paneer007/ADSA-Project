@@ -1,231 +1,247 @@
-#include <bits/stdc++.h>
+#include<bits/stdc++.h>
 using namespace std;
+class FibonacciHeap;
 
-struct node
-{
-    Edge edge;
-    int degree;
-    node *parent;
-    node *child;
-    node *left;
-    node *right;
-    char mark;
-    char c;
+struct node {
+private:
+	node* prev;
+	node* next;
+	node* child;
+	node* parent;
+	int value;
+	int degree;
+	bool marked;
+    int src;
+    int dest;
+public:
+	friend class FibonacciHeap;
+	node* getPrev() {return prev;}
+	node* getNext() {return next;}
+	node* getChild() {return child;}
+	node* getParent() {return parent;}
+	int getValue() {return value;}
+    int getSrc(){return src;}
+    int getDest(){return dest;}
+	bool isMarked() {return marked;}
+
+	bool hasChildren() {return child;}
+	bool hasParent() {return parent;}
 };
 
-class Fibonacci_Heap
-{
-    node *fh;
-    int total = 0;
-
-private:
-    node *insert(node *h, node *x)
-    {
-        x->degree = 0;
-        x->parent = NULL;
-        x->child = NULL;
-        x->left = x;
-        x->right = x;
-        x->mark = 'F';
-        x->c = 'N';
-        if (h != NULL)
-        {
-            if (h->left == NULL)
-            {
-                x->right = NULL;
-                h->left = x;
-            }
-            else
-            {
-                (h->left)->right = x;
-                x->right = h;
-                x->left = h->left;
-                h->left = x;
-            }
-            if (x->edge.weight < h->edge.weight)
-                h = x;
-        }
-        else
-            h = x;
-        total = total + 1;
-        return h;
-    }
-
-    node *createNode(Edge Child)
-    {
-        node *x = new node;
-        x->edge = Child;
-        return x;
-    }
-
-    void link(node *h, node *y, node *z)
-    {
-        y->left->right = y->right;
-        y->right->left = y->left;
-        if (z->right == z)
-            h = z;
-        y->left = y;
-        y->right = y;
-        y->parent = z;
-        if (z->child == NULL)
-            z->child = y;
-        y->right = z->child;
-        y->left = (z->child)->left;
-        ((z->child)->left)->right = y;
-        (z->child)->left = y;
-        if (y->edge.weight < (z->child)->edge.weight)
-            z->child = y;
-        z->degree++;
-    }
-
-    void consolidate(node *h)
-    {
-        float size = (log(total) / log(2));
-        int siz = size;
-        int d;
-        node *arr[siz + 1];
-        node *temp;
-        for (int i = 0; i <= siz; i++)
-            arr[i] = NULL;
-        node *x = h;
-        node *ptr = x;
-        do
-        {
-            ptr = ptr->right;
-            d = x->degree;
-            while (arr[d] != NULL)
-            {
-                temp = arr[d];
-                if (x->edge.weight > temp->edge.weight)
-                {
-                    node *t = x;
-                    x = temp;
-                    temp = t;
-                }
-                if (temp == h)
-                    h = x;
-                link(h, temp, x);
-                if (x->right == x)
-                    h = x;
-                arr[d] = NULL;
-                d++;
-            }
-            arr[d] = x;
-            x = x->right;
-
-        } while (x != h);
-        h = NULL;
-        for (int j = 0; j <= siz; j++)
-        {
-            if (arr[j] != NULL)
-            {
-                arr[j]->left = arr[j];
-                arr[j]->right = arr[j];
-                if (h != NULL)
-                {
-                    (h->left)->right = arr[j];
-                    arr[j]->right = h;
-                    arr[j]->left = h->left;
-                    h->left = arr[j];
-                    if (arr[j]->edge.weight < h->edge.weight)
-                        h = arr[j];
-                }
-                else
-                    h = arr[j];
-
-                if (h == NULL)
-                    h = arr[j];
-                else if (arr[j]->edge.weight < h->edge.weight)
-                    h = arr[j];
-            }
-        }
-    }
-
+class FibonacciHeap {
+protected:
+	node* heap;
 public:
-    Fibonacci_Heap()
-    {
-        fh = NULL;
-    }
 
-    int display()
-    {
-        node *temp = fh;
-        if (temp == NULL)
-        {
-            throw 505;
-        }
-        do
-        {
-            cout << temp->edge.weight;
-            temp = temp->right;
-            if (temp != fh)
-                cout << "-->";
-        } while (temp != fh && temp->right != NULL);
-        cout << endl;
-    }
+	FibonacciHeap() {
+		heap=_empty();
+	}
+	virtual ~FibonacciHeap() {
+		if(heap) {
+			_deleteAll(heap);
+		}
+	}
+	node* push( int src, int dest,int value) {
+		node* ret=_singleton(src,dest,value);
+		heap=_merge(heap,ret);
+		return ret;
+	}
+	void merge(FibonacciHeap& other) {
+		heap=_merge(heap,other.heap);
+		other.heap=_empty();
+	}
 
-    void push(Edge val)
-    {
-        node *newnode = createNode(val);
-        fh = insert(fh, newnode);
-    }
+	bool isEmpty() {
+		return heap==NULL;
+	}
 
-    Edge top(){
-        node *temp = fh;
-        Edge tempEdge;
-        tempEdge.weight=INT_MAX;
-        if (temp == NULL)
-        {
-            throw 505;
-        }
-        do
-        {
-            if(temp->edge.weight<tempEdge.weight){
-                tempEdge=temp->edge;
-            }
-            temp = temp->right;
-        } while (temp != fh && temp->right != NULL);
-        return tempEdge;
-    }
+	Edge top() {
+        Edge returnEdge;
+        returnEdge.src = heap->getSrc();
+        returnEdge.dest = heap->getDest();
+        returnEdge.weight = heap->getValue();
 
-    void pop()
-    {
-        node *temp = fh;
-        node *ptr = temp;
-        node *x = NULL;
-        node *llptr;
-        if (temp == NULL)
-            return;
-        if (temp->child != NULL)
-        {
-            x = temp->child;
-            do
-            {
-                ptr = x->right;
-                fh->left->right = x;
-                x->right = fh;
-                x->left = fh->left;
-                fh->left = x;
-                if (x->edge.weight < fh->edge.weight)
-                    fh = x;
-                x->parent = NULL;
-                x = ptr;
+		return returnEdge;
+	}
 
-            } while (ptr != temp->child);
-        }
-        (temp->left)->right = temp->right;
-        (temp->right)->left = temp->left;
-        fh = temp->right;
-        if (temp == temp->right && temp->child == NULL)
-            fh = NULL;
-        else
-        {
-            fh = temp->right;
-            consolidate(fh);
-        }
-        total--;
-    }
-    bool empty(){
-        return fh==NULL;
-    }
+	int pop() {
+		node* old=heap;
+		heap=_removeMinimum(heap);
+		int ret=old->value;
+		delete old;
+		return ret;
+	}
+
+	void decreaseKey(node* n,int value) {
+		heap=_decreaseKey(heap,n,value);
+	}
+
+	node* find(int value) {
+		return _find(heap,value);
+	}
+private:
+	node* _empty() {
+		return NULL;
+	}
+
+	node* _singleton(int src, int dest,int value) {
+		node* n=new node;
+		n->value=value;
+		n->prev=n->next=n;
+		n->degree=0;
+		n->marked=false;
+		n->child=NULL;
+		n->parent=NULL;
+        n->src=src;
+        n->dest = dest;
+		return n;
+	}
+
+	node* _merge(node* a,node* b) {
+		if(a==NULL)return b;
+		if(b==NULL)return a;
+		if(a->value>b->value) {
+			node* temp=a;
+			a=b;
+			b=temp;
+		}
+		node* an=a->next;
+		node* bp=b->prev;
+		a->next=b;
+		b->prev=a;
+		an->prev=bp;
+		bp->next=an;
+		return a;
+	}
+
+	void _deleteAll(node* n) {
+		if(n!=NULL) {
+			node* c=n;
+			do {
+				node* d=c;
+				c=c->next;
+				_deleteAll(d->child);
+				delete d;
+			} while(c!=n);
+		}
+	}
+	
+	void _addChild(node* parent,node* child) {
+		child->prev=child->next=child;
+		child->parent=parent;
+		parent->degree++;
+		parent->child=_merge(parent->child,child);
+	}
+
+	void _unMarkAndUnParentAll(node* n) {
+		if(n==NULL)return;
+		node* c=n;
+		do {
+			c->marked=false;
+			c->parent=NULL;
+			c=c->next;
+		}while(c!=n);
+	}
+
+	node* _removeMinimum(node* n) {
+		_unMarkAndUnParentAll(n->child);
+		if(n->next==n) {
+			n=n->child;
+		} else {
+			n->next->prev=n->prev;
+			n->prev->next=n->next;
+			n=_merge(n->next,n->child);
+		}
+		if(n==NULL)return n;
+		node* trees[64]={NULL};
+		
+		while(true) {
+			if(trees[n->degree]!=NULL) {
+				node* t=trees[n->degree];
+				if(t==n)break;
+				trees[n->degree]=NULL;
+				if(n->value<t->value) {
+					t->prev->next=t->next;
+					t->next->prev=t->prev;
+					_addChild(n,t);
+				} else {
+					t->prev->next=t->next;
+					t->next->prev=t->prev;
+					if(n->next==n) {
+						t->next=t->prev=t;
+						_addChild(t,n);
+						n=t;
+					} else {
+						n->prev->next=t;
+						n->next->prev=t;
+						t->next=n->next;
+						t->prev=n->prev;
+						_addChild(t,n);
+						n=t;
+					}
+				}
+				continue;
+			} else {
+				trees[n->degree]=n;
+			}
+			n=n->next;
+		}
+		node* min=n;
+		node* start=n;
+		do {
+			if(n->value<min->value)min=n;
+			n=n->next;
+		} while(n!=start);
+		return min;
+	}
+
+	node* _cut(node* heap,node* n) {
+		if(n->next==n) {
+			n->parent->child=NULL;
+		} else {
+			n->next->prev=n->prev;
+			n->prev->next=n->next;
+			n->parent->child=n->next;
+		}
+		n->next=n->prev=n;
+		n->marked=false;
+		return _merge(heap,n);
+	}
+
+	node* _decreaseKey(node* heap,node* n,int value) {
+		if(n->value<value)return heap;
+		n->value=value;
+		if(n->parent) {
+			if(n->value<n->parent->value) {
+				heap=_cut(heap,n);
+				node* parent=n->parent;
+				n->parent=NULL;
+				while(parent!=NULL && parent->marked) {
+					heap=_cut(heap,parent);
+					n=parent;
+					parent=n->parent;
+					n->parent=NULL;
+				}
+				if(parent!=NULL && parent->parent!=NULL)parent->marked=true;
+			}
+		} else {
+			if(n->value < heap->value) {
+				heap = n;
+			}
+		}
+		return heap;
+	}
+
+	node* _find(node* heap,int value) {
+		node* n=heap;
+		if(n==NULL)return NULL;
+		do {
+			if(n->value==value)return n;
+			node* ret=_find(n->child,value);
+			
+if(ret)return ret;
+			n=n->next;
+		}while(n!=heap);
+		return NULL;
+	}
 };

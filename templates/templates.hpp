@@ -1,0 +1,7 @@
+#include "./landing.cpp"
+#include "./login.cpp"
+#include "./signup.cpp"
+#include "./home.cpp"
+#include "./addAFriendPage.cpp"
+#include "./searchForRecommendationPage.cpp"
+#include "./updateProfilePage.cpp"
