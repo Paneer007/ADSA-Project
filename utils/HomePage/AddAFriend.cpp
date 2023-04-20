@@ -75,9 +75,6 @@ int AddAFriend(string user, string friendname)
     if (RelationEdges.find({user_id,friend_id})!= RelationEdges.end()){
         return 2;
     }
-
     createRelation(user_id,friend_id);
-
     return 0;
-
 }

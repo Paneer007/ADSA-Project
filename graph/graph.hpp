@@ -3,12 +3,11 @@
 #include <string.h>
 #include "../queue/priority_queue.hpp"
 
-
 using namespace std;
 
 struct DijkstraReturn
 {
-    unordered_map<int,int>userVisit;
+    unordered_map<int, int> userVisit;
     unordered_map<int, int> costToReach;
 };
 
@@ -46,7 +45,7 @@ private:
                 stringstream str(line);
                 while (getline(str, word, ','))
                     elems.push_back(word);
-                int scoreRel = score(elems,userTraits);
+                int scoreRel = score(elems, userTraits);
                 Edge relationEdge = {stoi(elems[2]), stoi(elems[1]), scoreRel};
                 Edge relationEdgeTwo = {stoi(elems[1]), stoi(elems[2]), scoreRel};
                 adjList[stoi(elems[2])].push_back(relationEdge);
@@ -78,10 +77,7 @@ private:
                 userTraits[index] = traits;
             }
         }
-
-        cout<<"im done"<<endl;
     }
-
 
     void PrintVertices()
     {
@@ -161,12 +157,16 @@ public:
 
     struct DijkstraReturn Dijkstra(int source)
     {
-        unordered_map<int,int>userVisit;
+        unordered_map<int, int> userVisit;
         unordered_map<int, int> costToReach;
         unordered_set<int> verticesSet;
+        unordered_set<int> ExistingConnection;
         FibonacciHeap pq;
         pq.push(source, source, 0);
         costToReach[source] = 0;
+        ExistingConnection.insert(source);
+        int first = true;
+
         while (!pq.isEmpty())
         {
             auto currVertex = pq.top();
@@ -175,10 +175,13 @@ public:
             auto edges = adjList[currVertex.dest];
             for (auto edge : edges)
             {
-                if(userVisit.find(edge.dest)== userVisit.end()){
-                    userVisit[edge.dest]=0;
-                }else{
-                    userVisit[edge.dest]=userVisit[edge.dest]+1;
+                if (userVisit.find(edge.dest) == userVisit.end())
+                {
+                    userVisit[edge.dest] = 0;
+                }
+                else
+                {
+                    userVisit[edge.dest] = userVisit[edge.dest] + 1;
                 }
                 if (costToReach.find(edge.dest) == costToReach.end())
                 {
@@ -190,19 +193,21 @@ public:
                 }
                 if (verticesSet.find(edge.dest) == verticesSet.end())
                 {
-                    cout<<edge.src<<" "<<edge.dest<<" "<<edge.weight<<endl;
-                    pq.push(edge.src,edge.dest,edge.weight);
+                    pq.push(edge.src, edge.dest, edge.weight);
+                }
+                if (first)
+                {
+                    ExistingConnection.insert(edge.dest);
                 }
             }
+            first = false;
         }
-        return{userVisit,costToReach};
-        
+        for (auto x : ExistingConnection)
+        {
+            costToReach.erase(x);
+            userVisit.erase(x);
+        }
 
-        // cout << "cost" << endl;
-
-        // for (auto x : costToReach)
-        // {
-        //     cout << x.first << " : " << x.second << endl;
-        // }
+        return {userVisit, costToReach};
     }
 };

@@ -14,11 +14,13 @@ noOfUserList = list(range(1, NumberOfUsers+1))
 userFields = ['id', 'name', 'region', 'age', 'institution', 'password']
 relationFields = ['id', 'person1', 'person2']
 hashtagsFields = ['id', 'value', 'userid']
+celebFields = ['id', 'account']
 
 # csv names
 user_filename = "./data/seeds/user.csv"
 relation_filename = "./data/seeds/relation.csv"
 hashtags_filename = "./data/seeds/hashtags.csv"
+celeb_filename = "./data/seeds/celebs.csv"
 
 # user data params
 regionList = ["Andhra Pradesh",
@@ -271,6 +273,115 @@ institutionsList = [
     "Darktrace"
 ]
 
+CelebsList = [
+    'instagram',
+    'cristiano',
+    'therock',
+    'kyliejenner',
+    'kimkardashian',
+    'leomessi',
+    'beyonce',
+    'justinbieber',
+    'kendalljenner',
+    'natgeo',
+    'neymarjr',
+    'arianagrande',
+    'taylorswift',
+    'jlo',
+    'nike',
+    'khloekardashian',
+    'mileycyrus',
+    'katyperry',
+    'kourtneykardash',
+    'ddlovato',
+    'virat.kohli',
+    'fcbarcelona',
+    'theellenshow',
+    'zendaya',
+    'nickiminaj',
+    'badgalriri',
+    '9gag',
+    'shakira',
+    'realmadrid',
+    'nasa',
+    'deepikapadukone',
+    'chrisbrownofficial',
+    'nba',
+    'champagnepapi',
+    'shawnmendes',
+    'victoriassecret',
+    'billieeilish',
+    'emmawatson',
+    'kevinhart4real',
+    'selenagomez',
+    'gigihadid',
+    'jamesrodriguez10',
+    'ronaldo',
+    'lelepons',
+    'jamescharles',
+    'davidbeckham',
+    'hudabeauty',
+    'caradelevingne',
+    'blakelively',
+    'kourtneykardashian',
+    'real__pcy',
+    'anushkasharma',
+    'zacefron',
+    'chanelofficial',
+    'blonded',
+    'garethbale11',
+    'ronaldinho',
+    'twhiddleston',
+    'k.mbappe',
+    'milliebobbybrown',
+    'ladygaga',
+    'robertdowneyjr',
+    'marvelstudios',
+    'iamzlatanibrahimovic',
+    'bellahadid',
+    'maluma',
+    'iamcardib',
+    'willsmith',
+    'aliaabhatt',
+    'emmastone',
+    'johnnydepp',
+    'daddyyankee',
+    'natashanorris',
+    'zidane',
+    'snoopdogg',
+    'priyankachopra',
+    'krisjenner',
+    'leonardodicaprio',
+    'jasonstatham',
+    'rogerfederer',
+    'danbilzerian',
+    'emrata',
+    'zayn',
+    'realmadridwomen',
+    'virginieviard',
+    'britneyspears',
+    'luisfonsi',
+    'mileycyrus',
+    'kaka',
+    'paulpogba',
+    'tylerperry',
+    'gisele',
+    'dualipa',
+    'jessicaalba',
+    'danielwellington',
+    'taeyeon_ss',
+    'jenniferaniston',
+    'salmahayek',
+    'djkhaled',
+    'lucyhale',
+    'maluma',
+    'harrystyles',
+    'blackpinkofficial',
+    'adele',
+    'maddieziegler',
+    'margotro'
+]
+
 ageList = list(range(18, 65))
 
 
@@ -283,13 +394,14 @@ relations = []
 # HashTag Array
 hashtags = []
 
+# Celeb Array
+celebarr = []
+
 # Support Functions
 
 '''
     Generate Users
 '''
-
-
 
 
 def GenerateUsers():
@@ -327,6 +439,15 @@ def GenerateInterest():
             count += 1
 
 
+def GenerateCelebs():
+    count = 1
+    celeb_sample = random.sample(CelebsList, 10)
+    for i in celeb_sample:
+        celebarr.append([count, i])
+        count += 1
+    print(celebarr)
+
+
 def GenerateUserCSV():
     with open(user_filename, "w") as userfile:
         csvwriter = csv.writer(userfile)
@@ -350,10 +471,19 @@ def GenerateUserInterestCSV():
         csvwriter.writerows(hashtags)
 
 
+def GenerateCelebsCSV():
+    with open(celeb_filename, "w") as celebsContext:
+        celebcontext = csv.writer(celebsContext)
+        celebcontext.writerow(celebFields)
+        celebcontext.writerows(celebarr)
+
+
 def generateCSV():
+    GenerateCelebs()
     GenerateUsers()
     GenerateRelation()
     GenerateInterest()
+    GenerateCelebsCSV()
     GenerateUserCSV()
     GenerateRelationCSV()
     GenerateUserInterestCSV()

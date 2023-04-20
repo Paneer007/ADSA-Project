@@ -4,10 +4,11 @@ string currentUser;
 void homepage(string user)
 {
     currentUser = user;
-    bool flag=true;
+    bool flag = true;
     while (flag)
     {
         system("clear");
+        cin.sync();
         int choice = HomePage();
         switch (choice)
         {
@@ -44,16 +45,17 @@ void homepage(string user)
             {
             case 1:
                 BlockIO("hashExists");
+            case 0:
+                BlockIO("addedHash");
             }
-            continue;
             continue;
         }
 
         case 3:
         {
             int count = SearchForRecommendationPage();
-            ReturnRecommendations(count,currentUser);
-            BlockIO("Recommended");
+            ReturnRecommendations(count, currentUser);
+            BlockIO("displayed recommendations");
             continue;
         }
 
@@ -71,6 +73,14 @@ void homepage(string user)
             exit(0);
             continue;
         }
+        default:
+        {
+            fflush(stdin);
+            cin>>ws;
+            cin.sync();
+            BlockIO("invalid");
         }
+        }
+        
     }
 }

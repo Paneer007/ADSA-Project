@@ -18,7 +18,7 @@ int createUsers(vector<string>creds)
     if (fin.is_open())
     {
         int lineNum = file_line_count("./data/seeds/user.csv");
-        fin << lineNum << "," << creds[0] << ","<<creds[2]<<","<<creds[3]<<","<<creds[4]<<"," << creds[1]<<"\n";
+        fin << lineNum << "," << creds[0] << ","<<creds[4]<<","<<creds[2]<<","<<creds[3]<<"," << creds[1]<<"\n";
         fin.close();
     }
     return 0;

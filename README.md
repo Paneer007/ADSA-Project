@@ -4,3 +4,8 @@
 - Nandana Rajan , 106121080
 ## Tech Stack
 - CPP
+- Python
+
+## Data Structures used
+- Fibonacci Heap
+- Dijkstra Algorithm

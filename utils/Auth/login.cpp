@@ -19,22 +19,50 @@ void makeUserVerificationMap()
             stringstream str(line);
             while (getline(str, word, ','))
                 elems.push_back(word);
-            userVerification[elems[1]]=elems[5];
+            userVerification[elems[1]] = elems[5];
         }
     }
 }
 int loginUser(string username, string password)
 {
     makeUserVerificationMap();
-    if(userVerification.find(username)== userVerification.end()){
+    cout << username << endl;
+    if (userVerification.find(username) == userVerification.end())
+    {
         return 2;
-    }else{
+    }
+    else
+    {
         auto actualPassword = userVerification[username];
-        cout<<actualPassword<<endl;
-        if(actualPassword== password){
-            return 0;
-        }else{
-            return 1;
+        bool valid = true;
+        if (actualPassword.size() == password.size() + 1)
+        {
+            for (int i = 0; i < password.size(); i++)
+            {
+                if (actualPassword[i] != password[i])
+                {
+                    valid = false;
+                }
+            }
+            if (valid)
+            {
+                return 0;
+            }
+            else
+            {
+                return 1;
+            }
+        }
+        else
+        {
+            if (actualPassword == password)
+            {
+                return 0;
+            }
+            else
+            {
+                return 1;
+            }
         }
     }
 }

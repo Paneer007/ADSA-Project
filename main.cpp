@@ -6,11 +6,11 @@
 using namespace std;
 int main()
 {
-    // while (true)
-    // {
-    //     system("clear");
-    //     landingpage();
-    // }
+    while (true)
+    {
+        system("clear");
+        landingpage();
+    }
 
 //      FibonacciHeap pq;
 //     // pq.push(1,2,10);
@@ -134,10 +134,11 @@ int main()
 //     pq.pop();
 //     cout<<1922<<endl;
 //     // pq.display();
-    Edge pq;
-    cout<<pq.weight<<endl;
-    auto tempGraph = Graph();
-    tempGraph.GenerateGraphFromCSV();
-    tempGraph.PrintVerticesAndEdges();
-    tempGraph.Dijkstra(1);    return 0;
+    // Edge pq;
+    // cout<<pq.weight<<endl;
+    // auto tempGraph = Graph();
+    // tempGraph.GenerateGraphFromCSV();
+    // tempGraph.PrintVerticesAndEdges();
+    //tempGraph.Dijkstra(1);
+        return 0;
 }

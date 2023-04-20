@@ -2,6 +2,7 @@
 using namespace std;
 int HomePage(){
     int choice;
+    cin.sync();
     cout<<"Select a choice : "<<endl;
     cout<<"1 : Add a friend "<<endl;
     cout<<"2 : Add HashTags "<<endl;

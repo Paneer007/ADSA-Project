@@ -27,17 +27,17 @@ int cardinalityOfIntersectionHashtags(vector<string>Set1,vector<string>Set2){
                           v.begin());
     return v.size();
 }
-int score(vector<string>elems,unordered_map<int,Traits>userTraits)
+float score(vector<string>elems,unordered_map<int,Traits>userTraits)
 {
-    int scoreValue=0;
+    float scoreValue=0;
     int src=stoi(elems[1]);
     int dest=stoi(elems[2]);
     string srcPlace=userTraits[src].region;
     string destPlace=userTraits[dest].region;
     int commonHashtags=cardinalityOfIntersectionHashtags(userTraits[src].interests,userTraits[dest].interests);
     int commonFriends=cardinalityOfIntersectionMutuals(userTraits[src].following,userTraits[dest].following);
-    scoreValue+=(1000/commonHashtags);
-    scoreValue+=(1000/commonFriends);
+    scoreValue+=(100000/(commonHashtags+1));
+    scoreValue+=(100000/(commonFriends+1));
     if (srcPlace.compare(destPlace)==0) 
         scoreValue-=(0.1*scoreValue);
     return scoreValue;
